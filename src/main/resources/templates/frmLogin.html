@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body
+        {
+            padding: 200px;
+            background-color: rgb(181, 181, 178);
+        }
+        fieldset
+        {
+            border: 3px solid blue;
+            margin: auto;
+            width: 400px;
+            background-color: aliceblue;
+            padding: 50px;
+
+        }
+        legend
+        {
+            color: blue;
+            font-size:large;
+        }
+        input[type="text"], input[type="password"]
+        {
+            border: 2px solid gray;
+            border-radius: 15px;
+            padding: 5px;
+            background-color: rgb(238, 238, 238);
+        }
+        input[type="text"]:focus, input[type="password"]:focus
+        {
+            outline: none;
+            border-color: blue;
+            background-color: white;
+
+        }
+        input[type="submit"]
+        {
+            margin-right: 25px;
+            background-color: blue;
+            color: white;
+            border-radius: 15px;
+            outline: none;
+            padding:5px 10px;
+
+        }
+    </style>
+<body>
+
+<fieldset>
+    <legend>Login in</legend>
+    <form action="/login" method="post">
+
+        <label for="a1">UserName:</label>
+        <input type="text" name="username" id="a1" required><br><br>
+        <label for="a2"> Password:</label>
+        <input type="password" name="password" id="a2" required><br><br><br>
+        <input type="submit" value="Login in" name="btnLogin" id="btnButtonid">
+    </form>
+    <div th:if="${param.error}" style="color: red;">
+        <p>username or password Incorrect</p>
+    </div>
+
+</fieldset>
+<script>
+    if (window.location.search.includes('error=true')) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+</script>
+</body>
+</html>

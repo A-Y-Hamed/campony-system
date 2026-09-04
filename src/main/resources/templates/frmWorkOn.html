@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkOn Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f2f3f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px 20px;
+        }
+
+        .page-title {
+            font-size: 38px;
+            font-weight: bold;
+            color: #222;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .main-container {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            align-items: flex-start;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #ffffff;
+            border-radius: 14px;
+            padding: 30px 25px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+            border: 1px solid #eaeaea;
+        }
+
+        .left-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .right-card {
+            flex: 1.35;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Form Group Styles */
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            font-size: 16px;
+            width: 110px;
+            color: #333;
+        }
+
+        .select-control {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid #3b82f6;
+            border-radius: 22px;
+            outline: none;
+            font-size: 15px;
+            background-color: #fff;
+        }
+
+        /* Search Section */
+        .search-options {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            flex-wrap: wrap;
+        }
+
+        .search-options label {
+            cursor: pointer;
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1.5px solid #3b82f6;
+            border-radius: 22px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .btn-search {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        /* Table Styles */
+        .table-container {
+            border: 1px solid #ccc;
+            height: 290px;
+            overflow-y: auto;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e5e7eb;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        td {
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            color: #444;
+        }
+
+        /* Buttons Grid */
+        .buttons-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-action {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            flex: 1;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .btn-action:hover, .btn-search:hover, .btn-back:hover {
+            background-color: #1d4ed8;
+        }
+
+        .back-section {
+            margin-top: 15px;
+        }
+
+        .btn-back {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-title">WorkOn Form</div>
+
+<form th:action="@{/workon/add}" method="post" class="main-container">
+
+    <!-- البطاقة اليسرى: تحديد الموظف والمشروع والأزرار -->
+    <div class="card left-card">
+        <div class="form-group">
+            <label>Employee:</label>
+            <select name="empNo" class="select-control">
+
+                <option th:each="emp : ${employees}"
+                        th:value="${emp.id}"
+                        th:text="${emp.name}"
+                        th:selected="${workOn != null and workOn.idE != null and workOn.idE == emp.id}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Project:</label>
+            <select name="projectNo" class="select-control">
+
+                <option th:each="proj : ${projects}"
+                        th:value="${proj.number}"
+                        th:text="${proj.name}"
+                        th:selected="${workOn != null and workOn.idP != null and workOn.idP == proj.number}">
+                </option>
+            </select>
+        </div>
+
+        <!-- أزرار العمليات الرئيسية -->
+        <div class="buttons-grid">
+            <button type="submit" class="btn-action">Add</button>
+            <button type="submit" th:formaction="@{/workon/delete}" class="btn-action">Delete</button>
+            <a type="submit" th:href="@{/workon}" class="btn-action" style="text-decoration: none;">All</a>
+        </div>
+
+        <div class="back-section">
+            <a type="button" class="btn-back" th:href="@{/main}" style="text-decoration: none;">Back</a>
+        </div>
+    </div>
+
+    <!-- البطاقة اليمنى: محرك البحث والجدول -->
+    <div class="card right-card">
+        <div class="search-options">
+            <span>Search By:</span>
+            <input type="radio" id="empNo" name="searchBy" value="Employee_No" checked>
+            <label for="empNo">Employee_No</label>
+
+            <input type="radio" id="empName" name="searchBy" value="Employee_Name">
+            <label for="empName">Employee_Name</label>
+
+            <input type="radio" id="projNo" name="searchBy" value="Project_No">
+            <label for="projNo">Project_No</label>
+
+            <input type="radio" id="projName" name="searchBy" value="Project_Name">
+            <label for="projName">Project_Name</label>
+        </div>
+
+        <div class="search-input-group">
+            <input type="text" name="keyword" class="search-input" placeholder="Enter search text...">
+            <button type="submit" th:formaction="@{/workon/search}" formmethod="get" class="btn-search">Search</button>
+        </div>
+
+        <!-- جدول النتائج -->
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Employee_No</th>
+                    <th>EmployeeName</th>
+                    <th>Project_No</th>
+                    <th>ProjectName</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${workOnList}">
+                    <td th:text="${item.idE}"></td>
+                    <td th:text="${item.nameE}"></td>
+                    <td th:text="${item.idP}"></td>
+                    <td th:text="${item.nameP}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</form>
+
+</body>
+</html>

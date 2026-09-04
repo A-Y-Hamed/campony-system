@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Department Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .left-panel, .right-panel {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .left-panel { flex: 1; }
+        .right-panel { flex: 1.2; display: flex; flex-direction: column; }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label {
+            width: 160px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1.5px solid #0044cc;
+            border-radius: 15px;
+            outline: none;
+        }
+
+        .buttons-group {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            background-color: #2a65d7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover { background-color: #1d4bb8; }
+        .btn-back { margin-top: 40px; }
+
+        .search-box { margin-bottom: 20px; }
+        .search-options {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .search-input-group { display: flex; gap: 10px; }
+        .search-input-group input[type="text"] {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1.5px solid #0044cc;
+            border-radius: 15px;
+            outline: none;
+        }
+
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            max-height: 350px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ececec;
+        }
+
+        th, td {
+            border: 1px solid #bbb;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e0e0e0;
+            color: #333;
+            position: sticky;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Department Form</h1>
+
+<div class="container">
+
+
+    <div class="left-panel">
+        <form th:action="@{/department/save}" method="post">
+
+            <div class="form-group">
+                <label for="deptNumber">Department Number:</label>
+                <input type="number" id="deptNumber" name="deptNumber" th:value="${dept != null ? dept.id : ''}">
+            </div>
+
+            <div class="form-group">
+                <label for="deptName">Department Name:</label>
+                <input type="text" id="deptName" name="deptName" th:value="${dept != null ? dept.name : ''}">
+            </div>
+
+            <div class="form-group">
+                <label for="deptLocation">Department Location:</label>
+                <input type="text" id="deptLocation" name="deptLocation" th:value="${dept != null ? dept.location : ''}">
+            </div>
+
+            <div class="buttons-group">
+                <button type="submit" class="btn">Add</button>
+                <button type="submit" class="btn" th:formaction="@{/department/update}">Update</button>
+                <button type="submit" class="btn" th:formaction="@{/department/delete}">Delete</button>
+                <button type="submit" class="btn" th:formaction="@{/department/find}" formmethod="get">Find</button>
+                <a th:href="@{/department}" class="btn">All</a>
+                <button type="reset" class="btn">Clear</button>
+            </div>
+
+            <div>
+                <a th:href="@{/main}" class="btn btn-back">Back</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="right-panel">
+        <form th:action="@{/department/search}" method="get">
+            <div class="search-box">
+                <div class="search-options">
+                    <span>Search By:</span>
+                    <label><input type="radio" name="searchBy" value="number" checked> Number</label>
+                    <label><input type="radio" name="searchBy" value="name"> Name</label>
+                    <label><input type="radio" name="searchBy" value="location"> Location</label>
+                </div>
+
+                <div class="search-input-group">
+                    <input type="text" name="keyword" placeholder="Enter search text...">
+                    <button type="submit" class="btn">Search</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dept : ${departments}">
+                    <td th:text="${dept.id}">1</td>
+                    <td th:text="${dept.name}">IT</td>
+                    <td th:text="${dept.location}">Building A</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

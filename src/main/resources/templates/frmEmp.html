@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .main-container {
+            display: flex;
+            gap: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* الجزء الأيسر: الإدخال والتحكم */
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-row label {
+            width: 100px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-row input[type="text"],
+        .form-row input[type="number"],
+        .form-row input[type="date"],
+        .form-row select {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid #4a90e2;
+            border-radius: 15px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .dept-group {
+            display: flex;
+            gap: 5px;
+            flex: 1;
+        }
+
+        .dept-group select {
+            flex: 1;
+        }
+
+        .btn-plus {
+            background-color: #3b7ddd;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* منطقة الهواتف */
+        .phone-section {
+            margin-top: 10px;
+        }
+
+        .phone-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .phone-input-group input {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid #4a90e2;
+            border-radius: 15px;
+        }
+
+        .btn-pill {
+            background-color: #3b7ddd;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 13px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-pill:hover {
+            background-color: #2b5fa7;
+        }
+
+        .phone-table-container {
+            border: 1px solid #ccc;
+            height: 120px;
+            overflow-y: auto;
+            background-color: #fdfdfd;
+        }
+
+        .phone-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .phone-table th, .phone-table td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .phone-table th {
+            background-color: #eaeaea;
+        }
+
+        /* أزرار التحكم الرئيسية */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            flex: 1;
+            background-color: #3b7ddd;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 13px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-back {
+            background-color: #3b7ddd;
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: fit-content;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* الجزء الأيمن: البحث وجدول الموظفين */
+        .right-panel {
+            flex: 1.3;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-left: 1px solid #eee;
+            padding-left: 20px;
+        }
+
+        .search-by-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: bold;
+            flex-wrap: wrap;
+            background-color: #f5f5f5;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .search-by-group label {
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .search-bar-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-bar-container input {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid #4a90e2;
+            border-radius: 15px;
+        }
+
+        .emp-table-container {
+            border: 1px solid #ccc;
+            flex: 1;
+            max-height: 400px;
+            overflow: auto;
+        }
+
+        .emp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .emp-table th, .emp-table td {
+            border: 1px solid #bbb;
+            padding: 6px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .emp-table th {
+            background-color: #e0e0e0;
+        }
+
+        .emp-table tbody tr:hover {
+            background-color: #d0e4ff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">Employee Form</div>
+
+<form th:action="@{/employee/save}" method="post">
+    <div class="main-container">
+
+        <!-- Panel الأيسر: المدخلات والأزرار -->
+        <div class="left-panel">
+
+            <div class="form-row">
+                <label>Number:</label>
+                <input type="number" name="id" th:value="${emp != null ? emp.id : ''}">
+            </div>
+
+            <div class="form-row">
+                <label>Name:</label>
+                <input type="text" name="name" th:value="${emp != null ? emp.name : ''}">
+            </div>
+
+            <div class="form-row">
+                <label>Address:</label>
+                <input type="text" name="address" th:value="${emp != null ? emp.address : ''}">
+            </div>
+
+            <div class="form-row">
+                <label>Salary:</label>
+                <input type="number" step="0.01" name="salary" th:value="${emp != null ? emp.salary : ''}">
+            </div>
+
+            <div class="form-row">
+                <label>HiringDate:</label>
+                <input type="date" name="hiringDate" th:value="${emp != null ? emp.hiringdate : ''}">
+            </div>
+
+            <div class="form-row">
+                <label>BirthDate:</label>
+                <input type="date" name="birthDate" th:value="${emp != null ? emp.birthdate : ''}">
+            </div>
+
+            <div class="form-row">
+                <label>Department:</label>
+                <div class="dept-group">
+                    <select name="department.id">
+                        <option th:each="dept : ${departments}"
+                                th:value="${dept.id}"
+                                th:text="${dept.name}"
+                                th:selected="${emp != null and emp.department != null and emp.department.id == dept.id}">
+                        </option>
+                    </select>
+                    <a th:href="@{/department}" class="btn-plus" style="text-decoration:none; text-align:center; line-height:28px;">+</a>
+                </div>
+            </div>
+
+            <!-- قسم إدارة أرقام الهاتف Phone -->
+            <div class="phone-section">
+                <div class="phone-input-group">
+                    <label style="width: 75px; font-weight: bold;">Phone:</label>
+                    <!-- المربع الذي يكتب فيه الرقم للإضافة أو الحذف -->
+                    <input type="text" name="phone" placeholder="أدخل رقم الهاتف...">
+
+                    <!-- عند الضغط على Add يأخذ الرقم المكتوب ويرسله للإضافة -->
+                    <button type="submit" th:formaction="@{/employee/phones/add}" class="btn-pill">Add</button>
+
+                    <!-- عند الضغط على Remove يأخذ الرقم المكتوب ويرسله للحذف إذا كان موجوداً -->
+                    <button type="submit" th:formaction="@{/employee/phones/remove}" class="btn-pill">Remove</button>
+                </div>
+
+                <div class="phone-table-container">
+                    <table class="phone-table">
+                        <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Phone</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="ph : ${phones}">
+                            <td th:text="${ph.id}"></td>
+                            <td th:text="${ph.phone}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- أزرار العمليات الرئيسية -->
+            <div class="action-buttons">
+                <button type="submit" class="btn-action">Add</button>
+                <button type="submit" th:formaction="@{/employee/update}" class="btn-action">Update</button>
+                <button type="submit" th:formaction="@{/employee/delete}" class="btn-action">Delete</button>
+                <button type="submit" th:formaction="@{/employee/find}" formmethod="get" class="btn-action">Find</button>
+                <a th:href="@{/employee}" class="btn-action">All</a>
+                <button type="reset" class="btn-action">Clear</button>
+            </div>
+
+            <a th:href="@{/main}" class="btn-back">Back</a>
+        </div>
+
+        <!-- Panel الأيمن: الخيارات، البحث، والجدول -->
+        <div class="right-panel">
+
+            <div class="search-by-group">
+                <span>Search By:</span>
+                <label><input type="radio" name="searchBy" value="number" checked> Number</label>
+                <label><input type="radio" name="searchBy" value="name"> Name</label>
+                <label><input type="radio" name="searchBy" value="address"> Address</label>
+                <label><input type="radio" name="searchBy" value="salary"> Salary</label>
+                <label><input type="radio" name="searchBy" value="hiringDate"> Hiring</label>
+                <label><input type="radio" name="searchBy" value="birthDate"> Birth</label>
+                <label><input type="radio" name="searchBy" value="deptName"> Department</label>
+                <label><input type="radio" name="searchBy" value="phone"> Phone</label>
+            </div>
+
+            <div class="search-bar-container">
+                <input type="text" name="searchValue" placeholder="Enter search text...">
+                <button type="submit" th:formaction="@{/employee/search}" formmethod="get" class="btn-pill" style="padding: 6px 25px;">Search</button>
+            </div>
+
+            <div class="emp-table-container">
+                <table class="emp-table">
+                    <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Salary</th>
+                        <th>Hiring Date</th>
+                        <th>Date Of Birth</th>
+                        <th>Department No</th>
+                        <th>Department</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="e : ${employees}">
+                        <td th:text="${e.number}"></td>
+                        <td th:text="${e.name}"></td>
+                        <td th:text="${e.address}"></td>
+                        <td th:text="${e.salary}"></td>
+                        <td th:text="${e.hiringdate}"></td>
+                        <td th:text="${e.birthdate}"></td>
+                        <td th:text="${e.departmentNumber }"></td>
+                        <td th:text="${e.departmentName}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</form>
+
+</body>
+</html>

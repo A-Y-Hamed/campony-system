@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f2f3f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* رفعه للأعلى */
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px 20px; /* تقليل الحواف العلوية */
+        }
+
+        .page-title {
+            font-size: 38px; /* تكبير العنوان */
+            font-weight: bold;
+            color: #222;
+            margin-top: 10px;
+            margin-bottom: 20px; /* تقليل المسافة أسفل العنوان */
+            text-align: center;
+        }
+
+        .main-container {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px; /* تكبير عرض الواجهة الكلي */
+            align-items: flex-start;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #ffffff;
+            border-radius: 14px;
+            padding: 30px 25px; /* تكبير الهوامش الداخلية للكرت */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+            border: 1px solid #eaeaea;
+        }
+
+        .left-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* توسيع المسافات بين الحقول */
+        }
+
+        .right-card {
+            flex: 1.35; /* تكبير عرض جهة الجدول والبحث */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Form Group Styles */
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            font-size: 16px; /* تكبير خط العناوين الفرعية */
+            width: 130px;
+            color: #333;
+        }
+
+        .form-control {
+            flex: 1;
+            padding: 10px 16px; /* تكبير الـ inputs */
+            border: 1.5px solid #3b82f6;
+            border-radius: 22px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .select-control {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid #3b82f6;
+            border-radius: 22px;
+            outline: none;
+            font-size: 15px;
+            background-color: #fff;
+        }
+
+        .btn-add-dept {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 0 18px;
+            border-radius: 14px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Search Section */
+        .search-options {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px; /* تكبير خيارات البحث */
+            font-weight: bold;
+            color: #333;
+        }
+
+        .search-options label {
+            cursor: pointer;
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1.5px solid #3b82f6;
+            border-radius: 22px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .btn-search {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        /* Table Styles */
+        .table-container {
+            border: 1px solid #ccc;
+            height: 290px; /* زيادة ارتفاع الجدول */
+            overflow-y: auto;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px; /* تكبير نص الجدول */
+            text-align: center;
+        }
+
+        th {
+            background-color: #e5e7eb;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        td {
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            color: #444;
+        }
+
+        /* Buttons Grid */
+        .buttons-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-action {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px; /* تكبير الأزرار */
+            border-radius: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            flex: 1;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .btn-action:hover, .btn-search:hover, .btn-add-dept:hover {
+            background-color: #1d4ed8;
+        }
+
+        .back-section {
+            margin-top: 5px;
+        }
+
+        .btn-back {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-title">Project Form</div>
+
+<form th:action="@{/project/save}" method="post" class="main-container">
+
+    <!-- البطاقة اليسرى: البيانات والأزرار -->
+    <div class="card left-card">
+        <div class="form-group">
+            <label>Project No:</label>
+            <input type="number" name="projectNo"  th:value="${project?.number}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Project Name:</label>
+            <input type="text" name="projectName" th:value="${project?.name}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Location:</label>
+            <input type="text" name="location"  th:value="${project?.location}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Department:</label>
+            <div class="select-group">
+                <select name="deptNo" class="select-control">
+                    <option th:each="dept : ${departments}"
+                            th:value="${dept.id}"
+                            th:text="${dept.name}"
+                            th:selected="${project != null and project.department != null and project.department.id == dept.id}">
+                    </option>
+                </select>
+                <button type="button" class="btn-add-dept">+</button>
+            </div>
+        </div>
+
+        <!-- أزرار العمليات -->
+        <div class="buttons-grid">
+            <button type="submit" class="btn-action">Add</button>
+            <button type="submit" th:formaction="@{/project/update}" class="btn-action">Update</button>
+            <button type="submit" th:formaction="@{/project/delete}" class="btn-action">Delete</button>
+            <button type="submit" th:formaction="@{/project/find}" formmethod="get" class="btn-action">Find</button>
+            <a type="submit" th:href="@{/project}" class="btn-action" style="text-decoration: none">All</a>
+            <button type="reset" class="btn-action">Clear</button>
+        </div>
+
+        <div class="back-section">
+            <a type="button" class="btn-action" th:href="@{/main}" style="text-decoration: none">Back</a>
+        </div>
+    </div>
+
+    <!-- البطاقة اليمنى: محرك البحث والجدول -->
+    <div class="card right-card">
+        <div class="search-options">
+            <span>Search By:</span>
+            <input type="radio" id="pno" name="searchBy" value="ProjectNo" checked>
+            <label for="pno">ProjectNo</label>
+
+            <input type="radio" id="pname" name="searchBy" value="name">
+            <label for="pname">Name</label>
+
+            <input type="radio" id="ploc" name="searchBy" value="location">
+            <label for="ploc">Location</label>
+
+            <input type="radio" id="pdept" name="searchBy" value="department">
+            <label for="pdept">Department</label>
+        </div>
+
+        <div class="search-input-group">
+            <input type="text" name="keyword" class="search-input" placeholder="Enter search text...">
+            <button type="submit" th:formaction="@{/project/search}" formmethod="get"  class="btn-search">Search</button>
+        </div>
+
+        <!-- جدول النتائج -->
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>No</th>
+                    <th>Department</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project : ${projects}">
+                    <td th:text="${project.number}"></td>
+                    <td th:text="${project.name}"></td>
+                    <td th:text="${project.location}"></td>
+                    <td th:text="${project.deptno}"></td>
+                    <td th:text="${project.department}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</form>
+
+</body>
+</html>

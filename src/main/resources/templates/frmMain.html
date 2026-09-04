@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Main Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .main-card {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #333333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .btn-container {
+            margin-bottom: 15px;
+        }
+
+        .btn-navigation {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #2a65d7;
+            color: #ffffff;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-navigation:hover {
+            background-color: #1d4bb8;
+        }
+
+        .btn-navigation:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-card">
+    <h1>Welcome to Control Panel</h1>
+    <p>Select a section to manage records:</p>
+
+    <div class="btn-container">
+        <a th:href="@{/department}" class="btn-navigation">
+            Department Form
+        </a>
+    </div>
+
+    <div class="btn-container">
+        <a th:href="@{/employee}" class="btn-navigation">
+            Employee Form
+        </a>
+    </div>
+    <div class="btn-container">
+        <a th:href="@{/project}" class="btn-navigation">
+            Project Form
+        </a>
+    </div>
+
+    <div class="btn-container">
+        <a th:href="@{/workon}" class="btn-navigation">
+            WorkOn Form
+        </a>
+    </div>
+</div>
+
+
+
+</body>
+</html>
